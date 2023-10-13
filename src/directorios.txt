@@ -1,0 +1,28 @@
+womenleague/
+|-- node_modules/
+|-- src/
+|   |-- assets/
+|   |-- components/
+|   |   |-- Team/
+|   |   |-- Match/
+|   |   |-- Leaderboard/
+|   |   |-- Betting/
+|   |-- contexts/
+|   |   |-- TeamContext.js
+|   |   |-- MatchContext.js
+|   |-- hooks/
+|   |   |-- useTeam.js
+|   |   |-- useMatch.js
+|   |-- models/
+|   |   |-- Team.js
+|   |   |-- Player.js
+|   |-- pages/
+|   |   |-- Home.js
+|   |   |-- Dashboard.js
+|   |   |-- Betting.js
+|   |-- services/
+|   |   |-- api.js (axios)
+|   |-- App.js
+|   |-- index.js
+|-- vite.config.js
+|-- package.json

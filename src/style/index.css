@@ -1,0 +1,88 @@
+.loader-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegúrate de que este número sea mayor que el z-index de cualquier otro elemento en tu página */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.loader {
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 8px solid #fff;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.team-card {
+  cursor: pointer;
+}
+.team-card h4 {
+  font-size: 18px;
+}
+.avatar-shield {
+  width: 200px;
+  margin: 10px;
+}
+.swuad-pic {
+  width: 100%;
+}
+/* Estilo del contenedor con scroll */
+.scrolled {
+  overflow-y: scroll; /* Agrega un scroll vertical */
+  overflow-x: hidden;
+  height: 80vh;
+}
+
+/* Estilo del scroll vertical */
+.scrolled::-webkit-scrollbar {
+  width: 5px; /* Ancho del scroll vertical */
+}
+
+/* Estilo del riel del scroll */
+.scrolled::-webkit-scrollbar-track {
+  background-color: #e5e5e5; /* Cambia el color del riel del scroll */
+}
+
+/* Estilo del pulgar del scroll */
+.scrolled::-webkit-scrollbar-thumb {
+  background-color: #7e7e7e; /* Cambia el color del pulgar del scroll */
+}
+
+.selectedcard {
+  background-color: #f2f3e9;
+}
+
+.alinea-shield {
+  max-width: 180px;
+}
+
+.alinea-shield-mini {
+  height: 80px;
+}
+
+.alineacion h3 {
+  font-size: 22px;
+}
+
+.minheightcard {
+  height: 250px;
+}
+
+.altura-equpacion {
+  height: 130px;
+}
