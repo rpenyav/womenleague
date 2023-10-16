@@ -1,5 +1,5 @@
 import { useAuth } from "../context/AuthContext";
-import { Home } from "../pages";
+import { Login } from "../pages";
 
 /**
  * Props para el componente ProtectComponent.
@@ -22,7 +22,7 @@ interface ProtectComponentProps {
 const ProtectComponent: React.FC<ProtectComponentProps> = ({ children }) => {
   const { isAuthenticated } = useAuth();
 
-  return isAuthenticated ? <>{children}</> : <Home />;
+  return isAuthenticated ? <>{children}</> : <Login />;
 };
 
 export default ProtectComponent;

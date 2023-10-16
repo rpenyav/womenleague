@@ -9,9 +9,6 @@ import { axiosInstance } from "../service/axiosInstance";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
-/**
- * Interface describing the shape of the authentication context.
- */
 interface IAuthContext {
   userId: string | null;
   currentUser: null | Record<string, any>;
@@ -22,16 +19,8 @@ interface IAuthContext {
   isAuthLoading: boolean;
 }
 
-/**
- * Creates a React Context for Authentication.
- */
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
-/**
- * Custom React Hook to use the authentication context.
- * @returns The authentication context.
- * @throws Will throw an error if not used within `AuthProvider`.
- */
 export const useAuth = (): IAuthContext => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -40,17 +29,10 @@ export const useAuth = (): IAuthContext => {
   return context;
 };
 
-/**
- * Interface describing the props for AuthProvider component.
- */
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-/**
- * AuthProvider component to wrap around components that require authentication state.
- * @param children - The child components.
- */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<null | Record<string, any>>(
     null
@@ -58,46 +40,43 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
-  /**
-   * Effect to check for existing access token and renew if present.
-   */
+  const [token, setToken] = useState<string | null>(null);
+
   useEffect(() => {
-    const token = Cookies.get("access_token");
+    const initialToken = Cookies.get("access_token");
+    if (initialToken) {
+      setToken(initialToken);
+    }
 
     const checkAuthentication = async () => {
       if (token) {
         try {
-          const decoded = jwtDecode(token) as {
-            email: string;
-            _id?: string;
-          };
+          const decoded = jwtDecode(token) as { email: string; _id?: string };
           const email = decoded.email;
           if (email) {
             await renewToken(email);
+            setIsAuthenticated(true);
           }
           const userId = decoded._id || null;
           setUserId(userId);
         } catch (e) {
           console.error("Token inválido", e);
+          setIsAuthenticated(false);
+          setUserId(null);
         }
+      } else {
+        setIsAuthenticated(false);
       }
       setIsAuthLoading(false);
     };
 
     checkAuthentication();
-  }, []);
-  /**
-   * Effect to update the `isAuthenticated` state based on the presence of `currentUser`.
-   */
+  }, [token]);
+
   useEffect(() => {
     setIsAuthenticated(currentUser !== null);
   }, [currentUser]);
 
-  /**
-   * Function to register a user.
-   * @param email - User's email.
-   * @param password - User's password.
-   */
   const register = async (email: string, password: string) => {
     const response = await axiosInstance.post(`/usuario/register`, {
       email,
@@ -106,11 +85,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setCurrentUser(response.data);
   };
 
-  /**
-   * Function to log a user in.
-   * @param email - User's email.
-   * @param password - User's password.
-   */
   const login = async (email: string, password: string) => {
     try {
       const response = await axiosInstance.post(`/usuario/login`, {
@@ -118,17 +92,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         password,
       });
       setCurrentUser(response.data);
-      setIsAuthLoading(false); // La autenticación se ha completado con éxito
+      const newToken = response.data.access_token;
+      setToken(newToken);
+      setIsAuthLoading(false);
     } catch (error) {
-      setIsAuthLoading(false); // La autenticación ha fallado
+      setIsAuthLoading(false);
       // Manejar el error de autenticación aquí
     }
   };
 
-  /**
-   * Function to renew user's authentication token.
-   * @param email - User's email.
-   */
   const renewToken = async (email: string) => {
     const response = await axiosInstance.post("/usuario/renew", { email });
     setCurrentUser(response.data);

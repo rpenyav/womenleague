@@ -8,7 +8,8 @@ async function bootstrap() {
 
   // Habilitando CORS específicamente para http://www.rafapenya.com
   app.enableCors({
-    origin: ['http://www.rafapenya.com', 'http://www.rafapenya.com/telocambio'],
+    //origin: ['http://www.rafapenya.com', 'http://www.rafapenya.com/telocambio'],
+    origin: ['http://localhost:5173'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
@@ -29,7 +30,7 @@ async function bootstrap() {
       next: () => void,
     ) => {
       if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Origin', 'http://www.rafapenya.com');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
         res.header('Access-Control-Allow-Credentials', 'true');

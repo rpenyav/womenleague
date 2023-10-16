@@ -6,7 +6,7 @@ import useGetUserInfo from "../hooks/useGetUserInfo";
 const Dashboard = () => {
   const { userId } = useAuth();
   const { data: userInfo } = useGetUserInfo(userId!);
-
+  console.log("dashboard", userId);
   return (
     <>
       <div className="row">

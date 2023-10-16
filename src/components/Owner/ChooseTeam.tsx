@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useGetTeams } from "../../hooks/useGetTeams";
 import { useGetTeamById } from "../../hooks/useGetTeamById";
 import TeamDetail from "../Team/TeamDetail";
 
-const ChooseTeam = () => {
+interface PropsUser {
+  userId: string;
+  refetch: any;
+}
+
+const ChooseTeam: FC<PropsUser> = ({ userId, refetch }) => {
   const { data: teams, isLoading, isError } = useGetTeams();
   const [selectedTeamId, setSelectedTeamId] = useState("");
 
@@ -30,9 +35,8 @@ const ChooseTeam = () => {
 
   return (
     teams && (
-      <div className="row">
+      <div className="row mt-5">
         <div className="col-md-3">
-          <h2>Selecciona un equipo</h2>
           {isLoading ? (
             <p>Cargando equipos...</p>
           ) : isError ? (
@@ -59,8 +63,7 @@ const ChooseTeam = () => {
             <p>Error al cargar los detalles del equipo: {isErrorDetail}</p>
           ) : selectedTeamId ? (
             <>
-              <h2>Detalle del equipo seleccionado: {data?.formal_name}</h2>
-              <TeamDetail data={data!} />
+              <TeamDetail data={data!} userId={userId} refetch={refetch} />
             </>
           ) : (
             <p>Selecciona un equipo para ver el detalle.</p>

@@ -7,7 +7,7 @@ export const useGetTeams = () => {
 
   const getTeams = async () => {
     try {
-      const response = await axiosInstance.get("/teams");
+      const response = await axiosInstance.get("/teams?limit=99999");
       const teamsData = response.data.teams; // Accede a la propiedad "teams"
 
       if (Array.isArray(teamsData)) {

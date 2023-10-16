@@ -10,7 +10,7 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { userId } = useAuth();
   const { isLoading, isError, error } = useGetUserInfo(userId!);
-
+  console.log("layout", userId);
   return (
     <div className="container-fluid">
       <LoadingAndErrorComponent
@@ -26,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="container">{children}</div>
         </main>
         <footer>
-          <p>Todos los derechos reservados. Liga de Fútbol Femenino 2023.</p>
+          {/* <p>Todos los derechos reservados. Liga de Fútbol Femenino 2023.</p> */}
         </footer>
       </div>
     </div>

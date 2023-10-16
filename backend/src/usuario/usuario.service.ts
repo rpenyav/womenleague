@@ -76,6 +76,7 @@ export class UsuarioService {
   async findUserAndTeams(id: string): Promise<any> {
     const usuario = await this.usuarioModel
       .findById(id)
+      .select('-password')
       .populate('ownedTeams')
       .exec();
 
